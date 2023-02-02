@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $total_users = User::all()->count();
+        $today_users = User::whereDay('created_at', now()->day)->count();
+        return view('home')->with([
+            'total_users' => $total_users,
+            'today_users' => $today_users
+        ]);
     }
 }

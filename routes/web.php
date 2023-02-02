@@ -5,6 +5,8 @@ use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\LoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,11 +22,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
+Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'index']);
+Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'index'])->name('register');
+Route::post('register', [App\Http\Controllers\Auth\RegisterController::class, 'create'])->name('register');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);

@@ -41,16 +41,24 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    protected function index()
+    {
+        return view('auth.register');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
+            'mobile' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -59,15 +67,42 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(\Illuminate\Http\Request $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+
+        $checkReferral = User::where('uid', $data['referral'])->first();
+        if (!$checkReferral) {
+
+            return back()->withInput()->withErrors(
+                ['referral' => "Invalid Referral ID"]
+            );
+        }
+
+        $this->validate($data, [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'mobile' => 'required|numeric|max:20',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|same:password_confirmation',
         ]);
+        $user = new User();
+        $user->first_name = $data['first_name'];
+        $user->last_name = $data['last_name'];
+        $user->username = $data['username'];
+        $user->phone = $data['mobile'];
+        $user->referral = $data['referral'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+
+        $user->save();
+
+        $user->uid = 'U' . str_pad($user->id, 5, "0", STR_PAD_LEFT);
+        $user->assignRole(2);
+        $user->save();
+        return redirect()->route('login')->with('success', 'User created successfully');
     }
 }

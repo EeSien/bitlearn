@@ -56,7 +56,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2019_12_14_000001_create_personal_access_tokens_table',1),(5,'2023_01_17_135605_create_permission_tables',1),(6,'2023_01_17_142708_create_questions_table',2);
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2019_12_14_000001_create_personal_access_tokens_table',1),(5,'2023_01_17_135605_create_permission_tables',1),(6,'2023_01_17_142708_create_questions_table',2),(7,'2023_02_02_113543_update_users_table',3);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +118,7 @@ CREATE TABLE `model_has_roles` (
 
 LOCK TABLES `model_has_roles` WRITE;
 /*!40000 ALTER TABLE `model_has_roles` DISABLE KEYS */;
-INSERT INTO `model_has_roles` VALUES (1,'App\\Models\\User',3);
+INSERT INTO `model_has_roles` VALUES (1,'App\\Models\\User',3),(2,'App\\Models\\User',8);
 /*!40000 ALTER TABLE `model_has_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,7 +278,7 @@ CREATE TABLE `roles` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +287,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'Admin','web','2023-01-17 06:06:25','2023-01-17 06:06:25');
+INSERT INTO `roles` VALUES (1,'Admin','web','2023-01-17 06:06:25','2023-01-17 06:06:25'),(2,'User','web','2023-01-17 06:06:25','2023-01-17 06:06:25');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,11 +300,19 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` int(11) NOT NULL,
+  `balance` bigint(20) NOT NULL DEFAULT '0',
+  `referral` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `progress` int(11) NOT NULL DEFAULT '0',
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_visited` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -318,7 +326,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Testing','esthien@hotmail.com',NULL,'$2a$12$WONa0MMupDqw2lQ3T57KreiPjCaaRPrs/ixtYRBrsJYVukGj50IMO',NULL,'2023-01-15 06:24:02','2023-01-15 06:24:02'),(2,'Admin','admin@example.com',NULL,'$2y$10$h7l8fwUYK5RukO9NaeuI2.e6S3sxOnRwNOHfzPLFcXhgo.gowEwpC',NULL,'2023-01-17 05:52:15','2023-01-17 05:52:15'),(3,'superAdmin','superadmin@example.com',NULL,'$2y$10$5w.qixP/Ago1AfUzHyYmlOKCFEmXewpHAB1lIuYSbY6g0ZXu.gQpq',NULL,'2023-01-17 06:06:25','2023-01-17 06:06:25');
+INSERT INTO `users` VALUES (1,'U00001','test','test','test','esthien@hotmail.com',0,0,NULL,0,NULL,'$2a$12$WONa0MMupDqw2lQ3T57KreiPjCaaRPrs/ixtYRBrsJYVukGj50IMO',NULL,NULL,'2023-01-15 06:24:02','2023-01-15 06:24:02'),(2,'U00002','admin','normal','normalAdmin','admin@example.com',0,0,NULL,0,NULL,'$2y$10$h7l8fwUYK5RukO9NaeuI2.e6S3sxOnRwNOHfzPLFcXhgo.gowEwpC',NULL,NULL,'2023-01-17 05:52:15','2023-01-17 05:52:15'),(3,'U00003','admin','super','superAdmin','superadmin@example.com',0,0,NULL,0,NULL,'$2y$10$5w.qixP/Ago1AfUzHyYmlOKCFEmXewpHAB1lIuYSbY6g0ZXu.gQpq',NULL,NULL,'2023-01-17 06:06:25','2023-01-17 06:06:25');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -331,4 +339,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-19 16:19:32
+-- Dump completed on 2023-02-02 21:22:04
