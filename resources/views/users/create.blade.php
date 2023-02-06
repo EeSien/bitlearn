@@ -24,8 +24,26 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Name:</strong>
-                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                <strong>First Name:</strong>
+                {!! Form::text('first_name', null, array('placeholder' => 'First Name','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Last Name:</strong>
+                {!! Form::text('last_name', null, array('placeholder' => 'Last Name','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Username:</strong>
+                {!! Form::text('username', null, array('placeholder' => 'Username','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Mobile:</strong>
+                {!! Form::text('mobile', null, array('placeholder' => 'Mobile','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -44,6 +62,12 @@
             <div class="form-group">
                 <strong>Confirm Password:</strong>
                 {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Referral ID:</strong>
+                {!! Form::text('referral', array('placeholder' => 'Referral ID','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
