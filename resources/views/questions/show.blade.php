@@ -11,25 +11,37 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Questions :</strong>
-                {{$question->question}}
-            </div>
-        </div>
-        @foreach($question->selection as $key=>$selection)
+        @foreach($question->question as $key=>$questiontitle)
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Selection {{$key+1}}:</strong>
-                    {{$selection}}
+                    <strong>Questions {{$language[$key]}} :</strong>
+                    {{$questiontitle}}
                 </div>
             </div>
         @endforeach
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Correct Answer:</strong>
-                {{$question->answer}}
+        @php
+            $j =0;
+            $number = 1;
+        @endphp
+        @foreach($question->selection as $key=>$selection)
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Selection {{$number}} {{ str_contains($key, 'cn') ? 'Chinese' : 'English' }}:</strong>
+                    {{$selection}}
+                </div>
             </div>
-        </div>
+            @php($j++)
+            @if($j%2==0)
+                @php($number ++)
+            @endif
+        @endforeach
+        @foreach($question->answer as $key=>$answer)
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Correct Answer {{$language[$key]}} :</strong>
+                    {{$answer}}
+                </div>
+            </div>
+        @endforeach
     </div>
 @endsection

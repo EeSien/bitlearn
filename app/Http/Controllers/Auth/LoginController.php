@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -59,7 +60,9 @@ class LoginController extends Controller
             $user->save();
             return redirect()->route('home');
         }
-        return redirect("login")->withErros('Oppes! You have entered invalid credentials');
+        return back()->withErrors([
+            'msg' => 'Oppes! You have entered invalid credentials'
+        ]);
     }
 
     public function logout(Request $request)

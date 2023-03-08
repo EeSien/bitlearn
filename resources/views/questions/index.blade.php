@@ -21,10 +21,14 @@
             <th>Question</th>
             <th width="280px">Action</th>
         </tr>
-        @foreach ($data as $key => $question)
+        @foreach ($datas as $key => $question)
             <tr>
                 <td>{{ ++$i }}</td>
-                <td>{{ $question->question }}</td>
+                <td>
+                    @foreach(json_decode($question->question) as $key=> $question_title)
+                        {{$languages[$key]}} : {{$question_title}} </br>
+                    @endforeach
+                </td>
                 <td>
                     <a class="btn btn-info" href="{{ route('questions.show',$question->id) }}">Show</a>
                     <a class="btn btn-primary" href="{{ route('questions.edit',$question->id) }}">Edit</a>
@@ -35,5 +39,5 @@
             </tr>
         @endforeach
     </table>
-    {!! $data->render() !!}
+    {!! $datas->links() !!}
 @endsection
