@@ -1,9 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (count($errors) > 0)
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            {{ $message }}
+        </div>
+    @endif
+
+    @if ($message = Session::get('error'))
         <div class="alert alert-danger">
-                <strong>Oppes! You have entered invalid credentials</strong>
+            {{ $message }}
         </div>
     @endif
     <div class="container">
