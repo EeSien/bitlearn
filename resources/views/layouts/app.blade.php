@@ -38,6 +38,7 @@
                             </li>
                         @endif
                     @else
+                        <li><a class="nav-link" href="{{ route('daily-question') }}">Daily Question</a></li>
                         <li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
                         <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Roles</a></li>
                         <li><a class="nav-link" href="{{ route('permissions.index') }}">Manage Permissions</a></li>

@@ -38,4 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('questions', QuestionController::class);
+    Route::get('daily-question/{id?}', [QuestionController::class, 'randomQuestion'])->name('daily-question');
+    Route::post('daily-question/{id?}', [QuestionController::class, 'randomQuestionAnswer'])->name('daily-question-answer');
+
 });

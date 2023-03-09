@@ -203,4 +203,35 @@ class QuestionController extends Controller
         return redirect()->route('questions.index')
             ->with('success', 'Question deleted successfully');
     }
+
+    public function randomQuestion()
+    {
+        $totalQuestion = Question::all()->count();
+        do {
+            $randID = rand(1, $totalQuestion);
+            $question = Question::find($randID);
+        } while ($question == null);
+        $question->question = json_decode($question->question);
+        $question->selection = json_decode($question->selection);
+        return view('daily-question.index')->with([
+            'question' => $question,
+            'languages' => $this->languages
+        ]);
+    }
+
+    public function randomQuestionAnswer(Request $request)
+    {
+
+        $question = Question::find($request->question);
+        $selection_answer = json_decode($question->selection, true);
+        $correct_answer = json_decode($question->answer, true);
+
+        $selected_answer['cn'] = $selection_answer['selection' . $request->answer_select . '_cn'];
+        $selected_answer['en'] = $selection_answer['selection' . $request->answer_select . '_en'];
+        if ($correct_answer == $selected_answer) {
+            return redirect()->route('daily-question', $request->question)->with('success', ' Correct answer');
+        } else {
+            return redirect()->route('daily-question', $request->question)->with('error', 'Wrong answer');
+        }
+    }
 }
